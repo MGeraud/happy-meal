@@ -8,15 +8,53 @@ const defaultCartState ={
 
 //creation du reducer en dehors du component car n'a pas besoin d'ête recréé à chaque fois que le composant est créé
 const cartReducer = (state,action) => {
+
     if (action.type === 'ADD_ITEM'){
-        const updatedItems = state.items.concat(action.item);
         const updatedTotalItemsAmount = state.totalAmount + action.item.price * action.item.amount;
+
+        //verif si item ajouté existe déjà
+        const existingCartItemIndex = state.items.findIndex(item => item.id === action.item.id);
+        const existingCartItem = state.items[existingCartItemIndex];
+        let updatedItems;
+
+        //en fonction de si il existe déjà un item de ce type alors ajout au nombre dans la liste, sinon ajout du nouvel item à la liste
+        if(existingCartItem){
+            const updatedItem = {
+                ...existingCartItem,
+                amount: existingCartItem.amount + action.item.amount
+            };
+            updatedItems=[...state.items];
+            updatedItems[existingCartItemIndex] = updatedItem;
+        } else {
+            updatedItems = state.items.concat(action.item);
+        }
+
         return {
             items: updatedItems,
             totalAmount: updatedTotalItemsAmount
         };
     }
     if (action.type === 'REMOVE_ITEM'){
+
+        const existingCartItemIndex = state.items.findIndex(item => item.id === action.id);
+        const existingCartItem = state.items[existingCartItemIndex];
+        const updatedTotalAmount = state.totalAmount - existingCartItem.price;
+        let updatedItems;
+        if (existingCartItem.amount === 1 ) {
+            updatedItems = state.items.filter(item => item.id !== action.id);
+        } else {
+            const updatedItem = {
+                ...existingCartItem,
+                amount: existingCartItem.amount - 1
+            };
+            updatedItems=[...state.items]
+            updatedItems[existingCartItemIndex] = updatedItem;
+        }
+        return {
+            items: updatedItems,
+            totalAmount: updatedTotalAmount
+        }
+
 
     }
 
