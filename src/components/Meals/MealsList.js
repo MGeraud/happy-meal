@@ -32,7 +32,7 @@ const DUMMY_MEALS = [
 
 const MealsList = () => {
     // helper pour mettre dans une variable l'affichage de la liste de menus
-    const mealList = DUMMY_MEALS.map(meal => <MealItem key={meal.id} name={meal.name} description={meal.description} price={meal.price}/>);
+    const mealList = DUMMY_MEALS.map(meal => <MealItem key={meal.id} id={meal.id} name={meal.name} description={meal.description} price={meal.price}/>);
 
     return (
         <section className={classNames.meals}>
