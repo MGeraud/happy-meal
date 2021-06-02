@@ -2,6 +2,7 @@ import classNames from './MealsList.module.css'
 import Card from "../UI/Card";
 import MealItem from "./MealItem";
 
+// Pour le moment création d'une fake list de menus
 const DUMMY_MEALS = [
     {
         id: 'm1',
@@ -30,6 +31,7 @@ const DUMMY_MEALS = [
 ];
 
 const MealsList = () => {
+    // helper pour mettre dans une variable l'affichage de la liste de menus
     const mealList = DUMMY_MEALS.map(meal => <MealItem key={meal.id} name={meal.name} description={meal.description} price={meal.price}/>);
 
     return (
